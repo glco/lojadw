@@ -41,13 +41,16 @@ public class RestrictInternalPages implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		HttpSession httpSession = ((HttpServletRequest) request).getSession(false);
 		try {
-			boolean isUserLoggedIn = (boolean)httpSession.getAttribute("UserLoggedIn");
-			if(isUserLoggedIn == false)
+			Object isUserLoggedIn = httpSession.getAttribute("UserLoggedIn");
+			if(isUserLoggedIn != null &&  (boolean)isUserLoggedIn == false) {
 				redirectToLogin((HttpServletResponse)response);
+				return;
+			}
 			String userName = (String)httpSession.getAttribute("UserName");
 			Logger.getGlobal().log(Level.INFO,"UserLoggedIn:"+isUserLoggedIn+" "+userName);
 		}catch(NullPointerException  | IOException e) {
 			redirectToLogin((HttpServletResponse)response);
+			return;
 		}
 		
 		chain.doFilter(request, response);

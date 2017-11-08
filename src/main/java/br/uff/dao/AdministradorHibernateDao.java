@@ -9,11 +9,12 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import br.uff.model.Administrador;
 
-public class AdministradorHibernateDao implements IGenericDao<Administrador>,AdministradorDao {
+public class AdministradorHibernateDao extends AdministradorDao {
 	
 	private SessionFactory sessionFactory;
 	
 	public AdministradorHibernateDao(SessionFactory sessionFactory) {
+		super();
 		this.sessionFactory = sessionFactory;
 	}
 	@Override
@@ -39,7 +40,7 @@ public class AdministradorHibernateDao implements IGenericDao<Administrador>,Adm
 	@Override
 	public List<Administrador> getAll() {
 		Session session = sessionFactory.openSession();
-		List<Administrador> admins = session.createQuery("from Administrador").list();
+		List<Administrador> admins = session.createQuery("from Administrador").getResultList();
 		session.close();
 		return admins;
 	}
@@ -81,8 +82,19 @@ public class AdministradorHibernateDao implements IGenericDao<Administrador>,Adm
 
 	@Override
 	public Administrador delete(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		Administrador adm = this.getById(id);
+		Session session = sessionFactory.openSession();
+		try {
+			session.getTransaction().begin();
+			Logger.getGlobal().log(Level.WARNING, "try delete administrador: "+id+"!");
+			//session.delete(adm);
+			session.getTransaction().commit();
+		}catch(Exception e) {
+			Logger.getGlobal().log(Level.SEVERE, "Failed to delete administrador: "+id+"!", e.getCause());
+		}finally {
+			session.close();
+		}
+		return adm;
 	}
 
 }

@@ -17,7 +17,7 @@ pageEncoding="ISO-8859-1"%>
 	<div style="width:30%;float:left;">
 	<label>Clique em uma categoria abaixo para a gerenciar: </label>
 	<ul>
-		<li><a href="#" >Administradores</a></li>
+		<li><a href="administrador" >Administradores</a></li>
 		<li>Produtos</li>
 		<li>Categorias</li>
 		<li>Compras</li>
