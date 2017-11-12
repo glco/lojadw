@@ -62,12 +62,36 @@ public class AdministradorInternalServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int adminId = Integer.parseInt(request.getParameter("id"));		
 		String action = request.getParameter("action");
-		Administrador adm = administradorDao.getById(adminId);
-		Logger.getGlobal().log(Level.INFO,action+" "+adm.getLogin());
-		
+		Logger.getGlobal().log(Level.INFO,"\n==================================================================================\n\t"+action+"\n==================================================================================\n");
+		if(action.compareTo("update") == 0) {
+			int adminId = Integer.parseInt(request.getParameter("id"));
+			String login = request.getParameter("login");
+			String senha = request.getParameter("senha");
+			doUpdate(adminId,login,senha);
+		}else if(action.compareTo("create") == 0) {
+			String login = request.getParameter("login");
+			String senha = request.getParameter("senha");
+			doCreate(login,senha);
+		}
+				
+//		Administrador adm = administradorDao.getById(adminId);
 		doGet(request, response);
 	}
 
+	private void doCreate(String login, String senha) {
+		Administrador adm = new Administrador();
+		adm.setLogin(login);
+		if(senha != null && senha != "")
+			adm.setSenha(senha);
+		administradorDao.save(adm);
+	}
+
+	private void doUpdate(int id,String login, String senha) {
+		Administrador adm = administradorDao.getById(id);
+		adm.setLogin(login);
+		adm.setSenha(senha);
+		administradorDao.save(adm);
+	}
+	
 }

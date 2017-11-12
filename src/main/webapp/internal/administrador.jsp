@@ -18,13 +18,25 @@ pageEncoding="ISO-8859-1"%>
 				data:{
 					  id : id,
 					  action : action
+					},
+				success: function(){
+						window.location.reload();
 					}
 				});
 		}
-
+	
+	function doFillUpdateForm(id,login){
+		var idInput = document.getElementById("createOrUpdateId").value= id;
+		var loginInput = document.getElementById("createOrUpdateLogin").value = login;
+		var actionInput = document.getElementById("createOrUpdateAction").value = "update";
+		console.log(idInput);
+		console.log(loginInput);
+		console.log(actionInput);
+		}
+	
 	function submitCreateOrUpdateRequest(){
-		var form = document.getElementById("createAdminForm");
-		console.log(form);
+		var form = document.getElementById("createAdminForm").submit();
+// 		var form = $('#createAdminForm').serialize();
 		}
 </script>
 	<h2>Administradores: </h2>
@@ -41,16 +53,16 @@ pageEncoding="ISO-8859-1"%>
 		<tr>
 			<td><c:out value="${adm.login}"/></td>
 			<td><a href="#"  onclick="doAction(${adm.id},'delete');"><img alt="delete icon" src="delete.png"></a></td>
-			<td><a href="#" onclick="fillForm(${adm.id}, ${adm.login } );"><img alt="Edit icon" src="edit.png"></a></td>
+			<td><a href="#" onclick="doFillUpdateForm('${adm.id }','${adm.login}');"><img alt="Edit icon" src="edit.png"></a></td>
 		</tr>
 	</c:forEach>
  	</table>
  	
  	<div>
-		<form id="createAdminForm" >
+		<form id="createAdminForm"  method="post">
 			<input id="createOrUpdateId"  type="hidden" name="id" />
 			<input id="createOrUpdateAction" type="hidden" name="action" value="create"/>
-			<label>Login:</label><input name="login" type="text" placeholder="login..." value=""/>
+			<label>Login:</label><input id="createOrUpdateLogin" name="login" type="text" placeholder="login..." value=""/>
 			<label>Senha:</label><input name="senha" type="password" placeholder="senha" /> 
 			<input type="button" onclick="submitCreateOrUpdateRequest();" value="Enviar"/>
 		</form>

@@ -71,7 +71,7 @@ public class AdministradorHibernateDao extends AdministradorDao {
 		Session session = sessionFactory.openSession();
 		try {
 			session.getTransaction().begin();
-			session.save(item);
+			session.saveOrUpdate(item);
 			session.getTransaction().commit();
 		}catch(HibernateException e) {
 			Logger.getGlobal().log(Level.SEVERE, "Exception at AdministradorHibernateDAO SAVE!", e.getCause());
@@ -87,7 +87,7 @@ public class AdministradorHibernateDao extends AdministradorDao {
 		try {
 			session.getTransaction().begin();
 			Logger.getGlobal().log(Level.WARNING, "try delete administrador: "+id+"!");
-			//session.delete(adm);
+			session.delete(adm);
 			session.getTransaction().commit();
 		}catch(Exception e) {
 			Logger.getGlobal().log(Level.SEVERE, "Failed to delete administrador: "+id+"!", e.getCause());
