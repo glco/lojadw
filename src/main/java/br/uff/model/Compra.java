@@ -1,16 +1,28 @@
 package br.uff.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table( name = "compra")
 public class Compra {
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name ="id")
 	private int id;
-	private int idCliente;
-	private int idProduto;
+	@ManyToOne
+	@JoinColumn(name="idcliente", foreignKey=@ForeignKey(name="fk_ccompra_id_cliente"))
+	private Cliente cliente;
+	@ManyToOne
+	@JoinColumn(name="idproduto", foreignKey=@ForeignKey(name="fk_compra_id_produto"))
+	private Produto produto;
 	
 	public Compra() {}
 
@@ -22,19 +34,19 @@ public class Compra {
 		this.id = id;
 	}
 
-	public int getIdCliente() {
-		return idCliente;
+	public Cliente getCliente() {
+		return this.cliente;
 	}
 
-	public void setIdCliente(int idCliente) {
-		this.idCliente = idCliente;
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
 
-	public int getIdProduto() {
-		return idProduto;
+	public Produto getProduto() {
+		return produto;
 	}
 
-	public void setIdProduto(int idProduto) {
-		this.idProduto = idProduto;
+	public void setProduto(Produto prod)  {
+		this.produto = prod;
 	};
 }

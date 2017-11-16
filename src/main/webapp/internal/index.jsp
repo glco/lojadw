@@ -18,10 +18,10 @@ pageEncoding="ISO-8859-1"%>
 	<label>Clique em uma categoria abaixo para a gerenciar: </label>
 	<ul>
 		<li><a href="administrador" >Administradores</a></li>
-		<li>Produtos</li>
-		<li>Categorias</li>
-		<li>Compras</li>
-		<li>Clientes</li>
+		<li><a href="produto">Produtos</a></li>
+		<li><a href="categoria">Categorias</a></li>
+		<li><a href="compra">Compras</a></li>
+		<li><a href="cliente">Clientes</a></li>
 		
 	</ul>
 	</div>

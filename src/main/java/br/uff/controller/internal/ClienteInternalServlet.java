@@ -1,13 +1,10 @@
 package br.uff.controller.internal;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.EnumSet;
-import java.util.Enumeration;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,26 +12,26 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import br.uff.dao.AdministradorDao;
-import br.uff.dao.AdministradorHibernateDao;
+import br.uff.dao.ClienteHibernateDao;
+import br.uff.dao.IGenericDao;
 import br.uff.dao.util.SessionFactoryHelper;
-import br.uff.model.Administrador;
+import br.uff.model.Cliente;
 
 /**
- * Servlet implementation class AdministradorInternal
+ * Servlet implementation class ClienteInternalServlet
  */
-@WebServlet(name = "administradorCrud", urlPatterns = "/internal/administrador/*")
-public class AdministradorInternalServlet extends HttpServlet {
+@WebServlet("/internal/cliente/*")
+public class ClienteInternalServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-	private AdministradorDao administradorDao;
+private IGenericDao<Cliente> clienteDao;
 	
-    public AdministradorInternalServlet() {
+    public ClienteInternalServlet() {
         super();
-        this.administradorDao = new AdministradorHibernateDao(SessionFactoryHelper.getSessionFactory());
+        this.clienteDao = new ClienteHibernateDao(SessionFactoryHelper.getSessionFactory());
     }
 
 	/**
@@ -43,19 +40,19 @@ public class AdministradorInternalServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter("action");
 		if( action != null && action.equals("delete")) {
-			int adminId = Integer.parseInt(request.getParameter("id"));
-			administradorDao.delete(adminId);
+			int clienteinId = Integer.parseInt(request.getParameter("id"));
+			clienteDao.delete(clienteinId);
 		}
 		
 		
-		List<Administrador> administradorList = new ArrayList<Administrador>();
+		List<Cliente> clienteList = new ArrayList<Cliente>();
 		try {
-			administradorList = administradorDao.getAll();
+			clienteList = clienteDao.getAll();
 		}catch(Exception E) {
-			Logger.getGlobal().log(Level.SEVERE, "Couldnt get adm list!");
+			Logger.getGlobal().log(Level.SEVERE, "Couldnt get cliente list!");
 		}
-		request.setAttribute("administradorList",administradorList);
-		request.getRequestDispatcher("administrador.jsp").forward(request, response);
+		request.setAttribute("clienteList",clienteList);
+		request.getRequestDispatcher("cliente.jsp").forward(request, response);
 	}
 
 	/**
@@ -65,10 +62,10 @@ public class AdministradorInternalServlet extends HttpServlet {
 		String action = request.getParameter("action");
 		Logger.getGlobal().log(Level.INFO,"\n==================================================================================\n\t"+action+"\n==================================================================================\n");
 		if(action.compareTo("update") == 0) {
-			int adminId = Integer.parseInt(request.getParameter("id"));
+			int clienteinId = Integer.parseInt(request.getParameter("id"));
 			String login = request.getParameter("login");
 			String senha = request.getParameter("senha");
-			doUpdate(adminId,login,senha);
+			doUpdate(clienteinId,login,senha);
 		}else if(action.compareTo("create") == 0) {
 			String login = request.getParameter("login");
 			String senha = request.getParameter("senha");
@@ -78,18 +75,14 @@ public class AdministradorInternalServlet extends HttpServlet {
 	}
 
 	private void doCreate(String login, String senha) {
-		Administrador adm = new Administrador();
-		adm.setLogin(login);
-		if(senha != null && senha != "")
-			adm.setSenha(senha);
-		administradorDao.save(adm);
+		Cliente cliente = new Cliente();
+		
+		clienteDao.save(cliente);
 	}
 
 	private void doUpdate(int id,String login, String senha) {
-		Administrador adm = administradorDao.getById(id);
-		adm.setLogin(login);
-		adm.setSenha(senha);
-		administradorDao.save(adm);
+		Cliente cliente = clienteDao.getById(id);
+
 	}
 	
 }

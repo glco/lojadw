@@ -1,6 +1,8 @@
 package br.uff.controller;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,7 +19,7 @@ import br.uff.model.Administrador;
 /**
  * Servlet implementation class LoginServlet
  */
-@WebServlet(name = "/LoginServlet",urlPatterns = "/doLogin")
+@WebServlet(name = "LoginServlet",urlPatterns = "/doLogin")
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -43,7 +45,7 @@ public class LoginServlet extends HttpServlet {
 		String userPassword = request.getParameter("senha");
 		Administrador admin = administradorDao.getByLogin(userLogin,userPassword);
 		if(admin == null)
-			response.sendRedirect("Index.jsp");
+			response.sendRedirect("index.jsp");
 		else{
 			HttpSession session = request.getSession();
 			session.setAttribute("UserLoggedIn", true);

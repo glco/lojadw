@@ -7,14 +7,14 @@ pageEncoding="ISO-8859-1"%>
           "http://www.w3.org/TR/html4/loose.dtd">
 <head>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
-<title> LojaDw :: Administradores</title>
+<title> LojaDw :: Compras</title>
 </head>
 <body>
 <script type="text/javascript">
 	function doAction(id,action){
 			$.ajax({
 				type:"GET",
-				url:"administrador",
+				url:"compra",
 				data:{
 					  id : id,
 					  action : action
@@ -25,13 +25,14 @@ pageEncoding="ISO-8859-1"%>
 				});
 		}
 	
-	function doFillUpdateForm(id,login){
+	function doFillUpdateForm(id,cliente, produto){
 		var idInput = document.getElementById("createOrUpdateId").value= id;
-		var loginInput = document.getElementById("createOrUpdateLogin").value = login;
+		var clienteSelect = document.getElementById("formClienteSelect").value = cliente;
+		var produtoSelect = document.getElementById("formProdutoSelect").value = produto;
 		var actionInput = document.getElementById("createOrUpdateAction").value = "update";
 		console.log(idInput);
-		console.log(loginInput);
-		console.log(actionInput);
+		console.log(clienteSelect);
+		console.log(produtoSelect);
 		}
 	
 	function submitCreateOrUpdateRequest(){
@@ -39,21 +40,22 @@ pageEncoding="ISO-8859-1"%>
 // 		var form = $('#createAdminForm').serialize();
 		}
 </script>
-	<h2>Administradores: </h2>
+	<h2>Compras: </h2>
 	
 	<table>
 	<tr>
 		<th>
-			login
+			cliente
 		</th>
+		<th>produto</th>
 		<th></th>
 		<th></th>
 	</tr>
-	<c:forEach items="${administradorList}" var="adm">
+	<c:forEach items="${compraList}" var="compra">
 		<tr>
 			<td><c:out value="${adm.login}"/></td>
-			<td><a href="#"  onclick="doAction(${adm.id},'delete');"><img alt="delete icon" width="15px" height="30px" src="../images/delete.png"></a></td>
-			<td><a href="#" onclick="doFillUpdateForm('${adm.id }','${adm.login}');"><img alt="Edit icon" width="15px" height="30px" src="../images/edit.png"></a></td>
+			<td><a href="#"  onclick="doAction(${compra.id},'delete');"><img alt="delete icon" width="15px" height="30px" src="../images/delete.png"></a></td>
+			<td><a href="#" onclick="doFillUpdateForm('${compra.id }','${compra.cliente.id}',${compra.produto.id});"><img alt="Edit icon" width="15px" height="30px" src="../images/edit.png"></a></td>
 		</tr>
 	</c:forEach>
  	</table>
@@ -62,8 +64,18 @@ pageEncoding="ISO-8859-1"%>
 		<form id="createAdminForm"  method="post">
 			<input id="createOrUpdateId"  type="hidden" name="id" />
 			<input id="createOrUpdateAction" type="hidden" name="action" value="create"/>
-			<label>Login:</label><input id="createOrUpdateLogin" name="login" type="text" placeholder="login..." value=""/>
-			<label>Senha:</label><input name="senha" type="password" placeholder="senha" /> 
+			<label>Cliente:</label>
+			<select id="formClienteSelect" name="clienteId">
+				<c:forEach items="${clienteList}" var="cliente">
+					<option value="${cliente.id}"> <c:out value="${cliente.nome}"></c:out></option>
+				</c:forEach>
+			</select>
+			<label>Produto:</label>
+			<select id="formProdutoSelect" name="produtoId">
+				<c:forEach items="${produtoList}" var="prod">
+					<option value="${prod.id}"> <c:out value="${prod.descricao}"></c:out></option>
+				</c:forEach>
+			</select>
 			<input type="button" onclick="submitCreateOrUpdateRequest();" value="Enviar"/>
 		</form>
 	</div>

@@ -1,48 +1,41 @@
 package br.uff.dao;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import com.google.inject.Inject;
+import br.uff.model.Compra;
+import br.uff.model.Compra;
 
-import br.uff.model.Administrador;
-import br.uff.model.Categoria;
+public class CompraHibernateDao implements IGenericDao<Compra> {
 
-public class CategoriaHibernateDao implements IGenericDao<Categoria> {
 	
 	private SessionFactory sessionFactory = null;
-	@Inject
-	public CategoriaHibernateDao(SessionFactory session) {
+	
+	 public CompraHibernateDao(SessionFactory session) {
 		this.sessionFactory = session;
 	}
-
+	
 	@Override
-	public List<Categoria> getAll(){
+	public List<Compra> getAll() {
 		Session session = sessionFactory.openSession();
-		List<Categoria> result = session.createQuery( "from Categoria" ).list();
+		List<Compra> result = session.createQuery( "from Compra" ).list();
 		session.close();
 		return result;
 	}
-	
 
 	@Override
-	public Categoria getById(int id) {
+	public Compra getById(int id) {
 		Session session = sessionFactory.openSession();
-		Categoria cat = null;
+		Compra item = null;
 		try {
 			session.getTransaction().begin();
 			
-			cat = (Categoria) session.createQuery("select a from Categoria a where a.id = :id")
+			item = (Compra) session.createQuery("select a from Compra a where a.id = :id")
 					.setParameter("id", id).getSingleResult();
 			
 			session.getTransaction().commit();
@@ -51,11 +44,11 @@ public class CategoriaHibernateDao implements IGenericDao<Categoria> {
 		}finally {
 			session.close();
 		}
-		return cat;
+		return item;
 	}
 
 	@Override
-	public void save(Categoria item) {
+	public void save(Compra item) {
 		Session session = sessionFactory.openSession();
 		session.getTransaction().begin();
 		session.saveOrUpdate(item);
@@ -64,20 +57,20 @@ public class CategoriaHibernateDao implements IGenericDao<Categoria> {
 	}
 
 	@Override
-	public Categoria delete(int id) {
-		Categoria cat = this.getById(id);
+	public Compra delete(int id) {
+		Compra item = this.getById(id);
 		Session session = sessionFactory.openSession();
 		try {
 			session.getTransaction().begin();
-			Logger.getGlobal().log(Level.WARNING, "try delete administrador: "+id+"!");
-			session.delete(cat);
+			Logger.getGlobal().log(Level.WARNING, "try delete compra: "+id+"!");
+			session.delete(item);
 			session.getTransaction().commit();
 		}catch(Exception e) {
-			Logger.getGlobal().log(Level.SEVERE, "Failed to delete administrador: "+id+"!", e.getCause());
+			Logger.getGlobal().log(Level.SEVERE, "Failed to delete compra: "+id+"!", e.getCause());
 		}finally {
 			session.close();
 		}
-		return cat;
+		return item;
 	}
 
 }

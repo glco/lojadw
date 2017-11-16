@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.persistence.NoResultException;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -28,8 +30,8 @@ public class AdministradorHibernateDao extends AdministradorDao {
 					.setParameter("login", login).setParameter("password",password).getSingleResult();
 			
 			session.getTransaction().commit();
-		}catch(HibernateException he){
-			
+		}catch(HibernateException | NoResultException ex){
+			Logger.getGlobal().log(Level.SEVERE, ex.getMessage());
 		}finally {
 			session.close();
 		}
