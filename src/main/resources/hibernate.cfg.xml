@@ -13,5 +13,7 @@
   <mapping class="br.uff.model.Categoria"/>
   <mapping class="br.uff.model.Administrador"/>
   <mapping class="br.uff.model.Produto"/>
+  <mapping class="br.uff.model.Cliente"/>
+  <mapping class="br.uff.model.Compra"/>
  </session-factory>
 </hibernate-configuration>

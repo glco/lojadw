@@ -6,7 +6,7 @@ pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" 
           "http://www.w3.org/TR/html4/loose.dtd">
 <head>
-<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script src="../js/jquery-3.2.1.min.js"></script>
 <title> LojaDw :: Administradores</title>
 </head>
 <body>

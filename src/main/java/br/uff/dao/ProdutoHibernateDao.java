@@ -1,5 +1,6 @@
 package br.uff.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,7 +27,26 @@ public class ProdutoHibernateDao implements IGenericDao<Produto> {
 		session.close();
 		return result;
 	}
+	
+	public ArrayList<Produto> getByCategoryId(int id) {
+		Session session = sessionFactory.openSession();
+		ArrayList<Produto> prod = null;
+		try {
+			session.getTransaction().begin();
+			
+			prod = (ArrayList<Produto>) session.createQuery("select a from Produto a where a.Categoria.id = :id")
+					.setParameter("id", id).list();
+			
+			session.getTransaction().commit();
+		}catch(HibernateException he){
+			
+		}finally {
+			session.close();
+		}
+		return prod;
+	}
 
+	
 	@Override
 	public Produto getById(int id) {
 		Session session = sessionFactory.openSession();

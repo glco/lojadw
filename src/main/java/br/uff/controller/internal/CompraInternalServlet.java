@@ -75,8 +75,38 @@ public class CompraInternalServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		String action = request.getParameter("action");
+		Logger.getGlobal().log(Level.INFO,"\n==================================================================================\n\t"+action+"\n==================================================================================\n");
+		if(action.compareTo("update") == 0) {
+			int compraId = Integer.parseInt(request.getParameter("id"));
+			doUpdate(compraId,buildCompra(request));
+		}else if(action.compareTo("create") == 0) {
+			String descricao = request.getParameter("descricao");
+			doCreate(buildCompra(request));
+		}
 		doGet(request, response);
 	}
+	
+	private void doUpdate(int compraId, Compra buildCompra) {
+		Compra o =  compraDao.getById(compraId);
+		o = copyCompra(o, buildCompra);
+		compraDao.save(o);
+	}
 
+	private Compra copyCompra(Compra o, Compra m) {
+		o.setCliente(m.getCliente());
+		o.setProduto(m.getProduto());
+		return o;
+	}
+	
+	private void doCreate(Compra buildCompra) {
+		compraDao.save(buildCompra);
+	}
+
+	private Compra buildCompra(HttpServletRequest r) {
+		Compra c = new Compra();
+		c.setCliente(clienteDao.getById(Integer.parseInt(r.getParameter("clienteId"))));
+		c.setProduto(produtoDao.getById(Integer.parseInt(r.getParameter("produtoId"))));
+		return c;
+	}
 }

@@ -18,10 +18,10 @@ public class Compra {
 	@Column(name ="id")
 	private int id;
 	@ManyToOne
-	@JoinColumn(name="idcliente", foreignKey=@ForeignKey(name="fk_ccompra_id_cliente"))
+	@JoinColumn(name="idcliente", foreignKey=@ForeignKey(name="fk_cliente_id"))
 	private Cliente cliente;
 	@ManyToOne
-	@JoinColumn(name="idproduto", foreignKey=@ForeignKey(name="fk_compra_id_produto"))
+	@JoinColumn(name="idproduto", foreignKey=@ForeignKey(name="fk_produto_id"))
 	private Produto produto;
 	
 	public Compra() {}

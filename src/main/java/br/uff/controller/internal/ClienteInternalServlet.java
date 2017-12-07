@@ -20,7 +20,7 @@ import br.uff.model.Cliente;
 /**
  * Servlet implementation class ClienteInternalServlet
  */
-@WebServlet("/internal/cliente/*")
+@WebServlet(name = "clienteCrud" ,urlPatterns = "/internal/cliente/*")
 public class ClienteInternalServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -63,26 +63,55 @@ private IGenericDao<Cliente> clienteDao;
 		Logger.getGlobal().log(Level.INFO,"\n==================================================================================\n\t"+action+"\n==================================================================================\n");
 		if(action.compareTo("update") == 0) {
 			int clienteinId = Integer.parseInt(request.getParameter("id"));
-			String login = request.getParameter("login");
-			String senha = request.getParameter("senha");
-			doUpdate(clienteinId,login,senha);
+			doUpdate(clienteinId,buildCliente(request));
 		}else if(action.compareTo("create") == 0) {
-			String login = request.getParameter("login");
-			String senha = request.getParameter("senha");
-			doCreate(login,senha);
+			doCreate(buildCliente(request));
 		}
 		doGet(request, response);
 	}
 
-	private void doCreate(String login, String senha) {
-		Cliente cliente = new Cliente();
-		
+	private Cliente buildCliente(HttpServletRequest request) {
+		Cliente c = new Cliente();
+		c.setNome(request.getParameter("nome"));
+		c.setEmail(request.getParameter("email"));
+		c.setCpf(request.getParameter("cpf"));
+		c.setEstado(request.getParameter("estado"));
+		c.setBairro(request.getParameter("bairro"));
+		c.setCidade(request.getParameter("cidade"));
+		c.setEndereco(request.getParameter("endereco"));
+		c.setCep(request.getParameter("cep"));
+		c.setReferencia(request.getParameter("referencia"));
+		c.setTelefoneFixo(request.getParameter("telefone"));
+		c.setCelular(request.getParameter("celular"));
+		c.setCartao(request.getParameter("cartao"));
+		c.setBandeira(request.getParameter("bandeira"));
+		return c;
+	}
+
+	private void doCreate(Cliente c) {
+		clienteDao.save(c);
+	}
+
+	private void doUpdate(int id,Cliente modified) {
+		Cliente cliente = clienteDao.getById(id);
 		clienteDao.save(cliente);
 	}
-
-	private void doUpdate(int id,String login, String senha) {
-		Cliente cliente = clienteDao.getById(id);
-
+	private Cliente copyCliente(Cliente original,Cliente modified) {
+		original.setNome(modified.getNome());
+		original.setEmail(modified.getEmail());
+		original.setCpf(modified.getCpf());
+		original.setEstado(modified.getEstado());
+		original.setBairro(modified.getBairro());
+		original.setCidade(modified.getCidade());
+		original.setEndereco(modified.getEndereco());
+		original.setCep(modified.getCep());
+		original.setReferencia(modified.getReferencia());
+		original.setTelefoneFixo(modified.getTelefoneFixo());
+		original.setCelular(modified.getCelular());
+		original.setCartao(modified.getCartao());
+		original.setBandeira(modified.getBandeira());
+		return original;
 	}
+	
 	
 }

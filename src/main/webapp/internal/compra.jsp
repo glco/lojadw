@@ -6,7 +6,7 @@ pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" 
           "http://www.w3.org/TR/html4/loose.dtd">
 <head>
-<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script src="../js/jquery-3.2.1.min.js"></script>
 <title> LojaDw :: Compras</title>
 </head>
 <body>
@@ -53,7 +53,8 @@ pageEncoding="ISO-8859-1"%>
 	</tr>
 	<c:forEach items="${compraList}" var="compra">
 		<tr>
-			<td><c:out value="${adm.login}"/></td>
+			<td><c:out value="${compra.cliente.nome}"/></td>
+			<td><c:out value="${compra.produto.descricao}"/></td>
 			<td><a href="#"  onclick="doAction(${compra.id},'delete');"><img alt="delete icon" width="15px" height="30px" src="../images/delete.png"></a></td>
 			<td><a href="#" onclick="doFillUpdateForm('${compra.id }','${compra.cliente.id}',${compra.produto.id});"><img alt="Edit icon" width="15px" height="30px" src="../images/edit.png"></a></td>
 		</tr>
