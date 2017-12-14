@@ -34,7 +34,7 @@ public class ProdutoHibernateDao implements IGenericDao<Produto> {
 		try {
 			session.getTransaction().begin();
 			
-			prod = (ArrayList<Produto>) session.createQuery("select a from Produto a where a.Categoria.id = :id")
+			prod = (ArrayList<Produto>) session.createQuery("select a from Produto a where a.categoria.id = :id")
 					.setParameter("id", id).list();
 			
 			session.getTransaction().commit();

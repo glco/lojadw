@@ -26,14 +26,11 @@ pageEncoding="ISO-8859-1"%>
 	
 	function adicionaAoCarrinho(id){
 		$.ajax({
-			type:"POST",
+			type:"GET",
 			url:"",
 			data:{
 				  id : id,
 				  action : "addToCart"
-				},
-			success: function(){
-					window.location.reload();
 				}
 			});	
 		}
@@ -63,7 +60,7 @@ pageEncoding="ISO-8859-1"%>
 	</div>
 	<div style="float:right">
 		<a href="carrinho">
-			<img alt="carrinho" src="images/carrino.jpg">
+			<img alt="carrinho" src="images/carrinho.png">
 		</a>
 	</div>
 	
@@ -73,13 +70,34 @@ pageEncoding="ISO-8859-1"%>
 			<input type="submit" value="PESQUISAR" style="width:25%"/>
 		</form>
 	</div>
-	<table>
 	<div>
-		<c:forEach items="${produtoList}" var="prod">
-			<tr> <c:out  value="${prod.descricao} - ${prod.valor}"/> <a href="" onlick="adicionaAoCarrinho({prod.id})">Comprar</a></tr>
-		</c:forEach>
+		<table>
+			<tr>
+				<th>
+					Descricao
+				</th>
+				<th>
+					Valor
+				</th>
+				<th>
+					Comprar
+				</th>
+			</tr>
+			<c:forEach items="${produtoList}" var="prod">
+				<tr>
+					<td>
+						<c:out  value="${prod.descricao}"/> 
+					</td> 
+					<td>
+						<c:out  value="${prod.valor}"/>
+					</td>
+					<td>
+						<a href="#" onlick="adicionaAoCarrinho({prod.id})">Comprar</a>
+					</td>
+				</tr>
+			</c:forEach> 
+		</table>
 	</div>
-	</table>
 </div>
 
 </body>

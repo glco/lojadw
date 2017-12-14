@@ -45,14 +45,17 @@ public class IndexServlet extends HttpServlet {
 		List<Produto> produtoList = new ArrayList<Produto>();
 		String action = request.getParameter("action");
 		String id = request.getParameter("id");
-		Logger.getGlobal().log(Level.INFO, "GET: Index " + id + action);
-		if(action != null && action.compareToIgnoreCase("loadProduct") == 0) {
+		Logger.getGlobal().log(Level.INFO, "GET: Index " + id+" " + action);
+		if(action != null && action.compareTo("load") == 0) {
 			try {
 				int categoriaId = Integer.parseInt(request.getParameter("id"));
 				produtoList = produtoDao.getByCategoryId(categoriaId);
-			}catch(Exception E) {
-				Logger.getGlobal().log(Level.SEVERE, "Couldnt get prod list!");
+				Logger.getGlobal().log(Level.INFO,""+ produtoList.isEmpty()+" "+produtoList.size());
+			}catch(Exception e) {
+				Logger.getGlobal().log(Level.SEVERE, "Couldnt get prod list! \n ",e);
 			}
+		}else {
+			produtoList = produtoDao.getAll();
 		}
 		List<Categoria> categoriaList = new ArrayList<Categoria>();
 		try {
@@ -69,7 +72,9 @@ public class IndexServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Logger.getGlobal().log(Level.INFO, "POST");
 		
+		doGet(request,response);
 	}
 
 }
