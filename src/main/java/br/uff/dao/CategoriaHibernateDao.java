@@ -13,15 +13,13 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import com.google.inject.Inject;
-
 import br.uff.model.Administrador;
 import br.uff.model.Categoria;
 
 public class CategoriaHibernateDao implements IGenericDao<Categoria> {
 	
 	private SessionFactory sessionFactory = null;
-	@Inject
+	
 	public CategoriaHibernateDao(SessionFactory session) {
 		this.sessionFactory = session;
 	}

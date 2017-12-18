@@ -11,6 +11,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.uff.dao.CategoriaHibernateDao;
 import br.uff.dao.IGenericDao;
@@ -18,6 +21,7 @@ import br.uff.dao.ProdutoHibernateDao;
 import br.uff.dao.util.SessionFactoryHelper;
 import br.uff.model.Categoria;
 import br.uff.model.Produto;
+import br.uff.model.ShoppingCart;
 
 /**
  * Servlet implementation class IndexServlet
@@ -41,16 +45,12 @@ public class IndexServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Logger.getGlobal().log(Level.INFO, "GET: Index");
 		List<Produto> produtoList = new ArrayList<Produto>();
-		String action = request.getParameter("action");
-		String id = request.getParameter("id");
-		Logger.getGlobal().log(Level.INFO, "GET: Index " + id+" " + action);
-		if(action != null && action.compareTo("load") == 0) {
+		String catId = request.getParameter("catId");
+		if(catId != null && Integer.parseInt(catId) != 0) {
 			try {
-				int categoriaId = Integer.parseInt(request.getParameter("id"));
+				int categoriaId = Integer.parseInt(catId);
 				produtoList = produtoDao.getByCategoryId(categoriaId);
-				Logger.getGlobal().log(Level.INFO,""+ produtoList.isEmpty()+" "+produtoList.size());
 			}catch(Exception e) {
 				Logger.getGlobal().log(Level.SEVERE, "Couldnt get prod list! \n ",e);
 			}
@@ -65,6 +65,7 @@ public class IndexServlet extends HttpServlet {
 		}
 		request.setAttribute("categoriaList",categoriaList);
 		request.setAttribute("produtoList",produtoList);
+		Logger.getGlobal().log(Level.INFO, "List size: "+produtoList.size());
 		request.getRequestDispatcher("index.jsp").forward(request, response);	
 		}
 
@@ -73,8 +74,24 @@ public class IndexServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Logger.getGlobal().log(Level.INFO, "POST");
-		
+		try {
+			int prodId = Integer.parseInt(request.getParameter("produtoId"));
+			Logger.getGlobal().log(Level.INFO, "PRD ID:"+prodId);
+			Produto p = produtoDao.getById(prodId);
+			Logger.getGlobal().log(Level.INFO, "PRD ID:"+p.getDescricao());
+			addProductToTheShoppingCart(request.getSession(),p);
+		}catch(Exception e) {
+			Logger.getGlobal().log(Level.SEVERE, "Não foi possivel adicionar o produto ao carrinho. \n"+e.getMessage(),e.getCause());
+		}
 		doGet(request,response);
+	}
+
+	private void addProductToTheShoppingCart(HttpSession session, Produto p) {
+		ShoppingCart sc = (ShoppingCart) session.getAttribute("shoppingCart");
+		if(sc == null)
+			sc = new ShoppingCart();
+		sc.addProduto(p);
+		session.setAttribute("shoppingCart", sc);
 	}
 
 }

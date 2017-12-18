@@ -14,25 +14,18 @@ pageEncoding="ISO-8859-1"%>
 <script type="text/javascript">
 	
 	function loadProduct(id){
-		$.ajax({
-			type:"GET",
-			url:"",
-			data:{
-				  id : id,
-				  action : "load"
-				}
-			});
+		console.log(id);
+		var form = document.getElementById("loadProd");
+		var input = document.getElementById("catId");
+		input.value = id;
+		form.submit();		
 	}
 	
 	function adicionaAoCarrinho(id){
-		$.ajax({
-			type:"GET",
-			url:"",
-			data:{
-				  id : id,
-				  action : "addToCart"
-				}
-			});	
+		console.log(id);
+		
+		var input = document.getElementById("prodId").value = id;
+		var form = document.getElementById("addToCart").submit();	
 		}
 	
 </script>
@@ -44,8 +37,15 @@ pageEncoding="ISO-8859-1"%>
 	</div>
 	
 	<div style="float:right;width:25%;">
-		<a href="login.jsp">Login</a>
-	</div>
+		<div style="float:left;width:50%;">
+			<a href="carrinho">
+				<img style="width:25px;height:25px" alt="carrinho" src="images/carrinho.png">
+			</a>
+		</div>
+		<div style="width:50%;float:right;">
+			<a href="login.jsp">Login</a>
+		</div>		
+		</div>
 </div>
 
 <div style="width:100%" style="margin-top:20px;float:left">
@@ -53,16 +53,13 @@ pageEncoding="ISO-8859-1"%>
 	<table>
 	<tr>
 	<c:forEach items="${categoriaList}" var="cat">
-		<th style="width:20%"><a href="#" onclick="loadProduct(${cat.id})" ><c:out  value="${cat.descricao}"/></a>
+		<th style="width:20%"><a href="#" onclick="loadProduct(${cat.id})" ><c:out  value="${cat.descricao}"/></a></th>
 	</c:forEach>
+		<th style="width:20%"> <a href="#" onclick="loadProduct(0)">Limpar</a></th>
 	</tr>
 	</table>
 	</div>
-	<div style="float:right">
-		<a href="carrinho">
-			<img alt="carrinho" src="images/carrinho.png">
-		</a>
-	</div>
+	
 	
 	<div style="margin:auto;width:65%">
 		<form>
@@ -92,13 +89,18 @@ pageEncoding="ISO-8859-1"%>
 						<c:out  value="${prod.valor}"/>
 					</td>
 					<td>
-						<a href="#" onlick="adicionaAoCarrinho({prod.id})">Comprar</a>
+						<a href="#" onclick="adicionaAoCarrinho(${prod.id})">Comprar</a>
 					</td>
 				</tr>
 			</c:forEach> 
 		</table>
 	</div>
 </div>
-
+<form id="loadProd" method="get">
+	<input id="catId" name="catId" type="hidden" value=""/>
+</form>
+<form id="addToCart" method="post">
+	<input id="prodId" type="hidden" name="produtoId" value=""/>
+</form>
 </body>
 </html>

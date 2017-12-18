@@ -19,5 +19,4 @@ public class CategoriaDAOTest {
 		assertNotEquals(0, catDao.getAll().size());
 	}
 	
-	
 }

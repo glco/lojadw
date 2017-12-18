@@ -12,13 +12,21 @@ import br.uff.model.Produto;
 
 public class ProdutoHibernateTst {
 	
-	private ProdutoHibernateDao prodDAo = new ProdutoHibernateDao(SessionFactoryHelper.getSessionFactory());
+	private ProdutoHibernateDao prodDao = new ProdutoHibernateDao(SessionFactoryHelper.getSessionFactory());
 	
 	@Test
 	public void listShouldNotBeEmpty() {
-		List<Produto> l = prodDAo.getByCategoryId(2); 
+		List<Produto> l = prodDao.getByCategoryId(2); 
 		assertNotNull(l);
 		assertNotEquals(0, l.size());
 	}
-
+	@Test
+	public void listContainsOnlyRightCategory() {
+		List<Produto> l = prodDao.getByCategoryId(2);
+		assertNotNull(l);
+		for(Produto p : l){
+			System.out.println(p.getDescricao()+" "+p.getCategoria().getId());
+			assertEquals(2, p.getCategoria().getId());
+		}
+	}
 }

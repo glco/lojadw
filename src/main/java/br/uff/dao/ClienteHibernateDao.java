@@ -8,15 +8,13 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import com.google.inject.Inject;
-
 import br.uff.model.Cliente;
 import br.uff.model.Cliente;
 
 public class ClienteHibernateDao implements IGenericDao<Cliente> {
 
 	private SessionFactory sessionFactory = null;
-	@Inject
+	
 	public ClienteHibernateDao(SessionFactory session) {
 		this.sessionFactory = session;
 	}
