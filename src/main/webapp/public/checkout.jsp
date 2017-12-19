@@ -148,7 +148,7 @@ pageEncoding="ISO-8859-1"%>
 		</div>
 		<div>	
 			<label>Bandeira:</label>
-			<select id="bandeiraInput">
+			<select id="formBandeiraInput">
 				<option value="amex">American Express</option>
 				<option value="elo">Elo</option>
 				<option value="master">MasterCard</option>
