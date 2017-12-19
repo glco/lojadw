@@ -50,48 +50,115 @@ pageEncoding="ISO-8859-1"%>
 
 </script>
 <style>
-	#createForm{
-		margin-top:20px;
-		width:100%;
+
+	form {
+    margin: 0 auto;
+    width: 500px;
+    padding: 1em;
+    border: 1px solid #CCC;
+    border-radius: 1em;
 	}
-	#createForm label{
-		float:left;
-		width:5%;
-		margin: 5px;
+
+	form div + div {
+	    margin-top: 1em;
 	}
-	#createForm input{
-		width:95%;
-		float:right;
+
+	label {
+	    display: inline-block;
+	    width: 120px;
+	    text-align: right;
 	}
-	#createForm button{
-		margin-top:30px;
-		width:40%;
-		margin:auto;
+
+	input, textarea {
+	    font: sans-serif;
+	    font-size: 15px;
+	    width: 300px;
+	    -moz-box-sizing: border-box;
+	    box-sizing: border-box;
+	    border: 1px solid #999;
 	}
+
+	textarea {
+	    vertical-align: top;
+	    height: 5em;
+	    resize: vertical;
+	}
+
+	.button {
+	    padding-left: 100px;
+		  
+	}
+
+
 </style>
-	<h2>Checkout: </h2>
+	<h2 align="center">Checkout: </h2>
  	
- 	<div>
-		<form id="createForm"  method="post">
-			<input id="createOrUpdateId"  type="hidden" name="id" />
-			<input id="createOrUpdateAction" type="hidden" name="action" value="create"/>
-			<label>Nome:</label><input id="formNomeInput" name="nome" type="text" placeholder="nome..." value="" required/>
-			<label>email:</label><input id="formEmailInput" name="email" type="text" placeholder="valor..." value="" required/>
-			<label>cpf:</label><input id="formCpfInput" name="cpf" type="text" placeholder="..." value="" required/>
-			<label>estado:</label><input id="formEstadoInput" name="estado" type="text" placeholder="..." value="" required/>
-			<label>cidade:</label><input id="formCidadeInput" name="cidade" type="text" placeholder="..." value="" required/>
-			<label>bairro:</label><input id="formBairroInput" name="bairro" type="text" placeholder="..." value="" required/>
-			<label>cep:</label><input id="formCepInput" name="cep" type="text" placeholder="..." value="" required/>
-			<label>endereco:</label><input id="formEnderecoInput" name="endereco" type="text" placeholder="..." value="" required/>
-			<label>referencia:</label><input id="formReferenciaInput" name="referencia" type="text" placeholder="..." value="" required/>
-			<label>telefone_fixo:</label><input id="formTelefoneInput" name="telefone" type="text" placeholder="..." value="" required/>
-			<label>celular:</label><input id="formCelularInput" name="celular" type="text" placeholder="..." value="" required/>
-			<label>n_cartao:</label><input id="formCataoInput" name="cartao" type="text" placeholder="..." value="" required/>
-			<label>bandeira:</label><input id="formBandeiraInput" name="bandeira" type="text" placeholder="..." value="" required/>
-			
+ 	<form id="createForm"  method="post">
+ 		<input id="createOrUpdateId"  type="hidden" name="id" />
+		<input id="createOrUpdateAction" type="hidden" name="action" value="create"/>
+
+		<div>	
+			<label>Nome:</label>
+			<input id="formNomeInput" name="nome" type="text" placeholder="Nome completo" value="" required/>
+		</div>
+		<div>	
+			<label>E-mail:</label>
+			<input id="formEmailInput" name="email" type="email" placeholder="exemplo@exemplo.com" value="" required/>
+		</div>
+		<div>
+			<label>CPF:</label>
+			<input id="formCpfInput" name="cpf" type="text" placeholder="" value="" required/>
+		</div>
+		<div>	
+			<label>Estado:</label>
+			<input id="formEstadoInput" name="estado" type="text" placeholder="" value="" required/>
+		</div>
+		<div>	
+			<label>Cidade:</label>
+			<input id="formCidadeInput" name="cidade" type="text" placeholder="" value="" required/>
+		</div>
+		<div>	
+			<label>Bairro:</label>
+			<input id="formBairroInput" name="bairro" type="text" placeholder="" value="" required/>
+		</div>
+		<div>	
+			<label>CEP:</label>
+			<input id="formCepInput" name="cep" type="text" placeholder="" value="" required/>
+		</div>
+		<div>	
+			<label>Endereço:</label>
+			<input id="formEnderecoInput" name="endereco" type="text" placeholder="" value="" required/>
+		</div>
+		<div>	
+			<label>Referência:</label>
+			<input id="formReferenciaInput" name="referencia" type="text" placeholder="" value="" required/>
+		</div>
+		<div>	
+			<label>Telefone fixo:</label>
+			<input id="formTelefoneInput" name="telefone" type="tel" placeholder="" value="" required/>
+		</div>
+		<div>	
+			<label>Celular:</label>
+			<input id="formCelularInput" name="celular" type="tel" placeholder="" value="" required/>
+		</div>
+		<div>	
+			<label>Nº do cartão:</label>
+			<input id="formCataoInput" name="cartao" type="text" placeholder="" value="" onblur="return valid_credit_card()" required/>
+		</div>
+		<div>	
+			<label>Bandeira:</label>
+			<select id="bandeiraInput">
+				<option value="amex">American Express</option>
+				<option value="elo">Elo</option>
+				<option value="master">MasterCard</option>
+				<option value="visa">Visa</option>
+			</select>
+		</div>	
+		<div class="button">
 			<input type="button" onclick="submitCreateOrUpdateRequest();" value="Enviar"/>
-		</form>
-	</div>
+		</div>
+
+	</form>
  	
 </body>
 </html>
